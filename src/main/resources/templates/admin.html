@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Administration</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h2>Gestion des utilisateurs</h2>
+
+    <table border="1" cellpadding="6">
+        <tr>
+            <th>ID</th>
+            <th>Utilisateur</th>
+            <th>Rôles</th>
+            <th>Action</th>
+        </tr>
+
+        <tr th:each="u : ${users}">
+            <td th:text="${u.id}"></td>
+            <td th:text="${u.username}"></td>
+
+            <td>
+                <span th:each="r : ${u.roles}"
+                      th:text="${r.name + ' '}"></span>
+            </td>
+
+            <td>
+                <form th:action="@{'/admin/users/supprimer/' + ${u.id}}"
+                      method="post">
+                    <button type="submit">Supprimer</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+
+    <h3>Ajouter un utilisateur</h3>
+
+    <form th:action="@{/admin/users}" method="post">
+        <input type="text" name="username"
+               placeholder="Nom d'utilisateur" required>
+
+        <input type="password" name="password"
+               placeholder="Mot de passe" required>
+
+        <select name="role" required>
+            <option th:each="r : ${roles}"
+                    th:value="${r.name}"
+                    th:text="${r.name}"></option>
+        </select>
+
+        <button type="submit">Créer</button>
+    </form>
+
+    <p><a th:href="@{/home}">Retour à l'accueil</a></p>
+</body>
+</html>

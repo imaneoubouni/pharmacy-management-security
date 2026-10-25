@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ventes</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <h2>Enregistrer une vente</h2>
+
+    <p th:if="${succes}" th:text="${succes}"
+       style="color:green"></p>
+
+    <p th:if="${erreur}" th:text="${erreur}"
+       style="color:red"></p>
+
+    <form th:action="@{/ventes/enregistrer}" method="post">
+        <label>Médicament :</label>
+
+        <select name="medicamentId" required>
+            <option th:each="m : ${medicaments}"
+                    th:value="${m.id}"
+                    th:text="${m.nom + ' (stock : ' + m.stock
+                    + ', prix : ' + m.prix + ' DH)'}">
+            </option>
+        </select>
+
+        <label>Quantité :</label>
+        <input type="number" name="quantite"
+               min="1" value="1" required>
+
+        <button type="submit">Enregistrer la vente</button>
+    </form>
+
+    <p><a th:href="@{/home}">Retour à l'accueil</a></p>
+</body>
+</html>
